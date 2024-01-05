@@ -1,12 +1,11 @@
-import User from "./models/userModel";
-import generateToken from "./utils/generateToken";
+import User from "../models/userModel.js"
+import generateToken from "../utils/generateToken.js";
 
-// Generate Token
 const generateTokenResponse = (res, user) => {
     generateToken(res, user._id);
     };
-    // For login
-    const authenticateUser = async (email, password) => {
+   // For login
+const authenticateUser = async (email, password) => {
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
         return user;
@@ -15,7 +14,7 @@ const generateTokenResponse = (res, user) => {
     }
     };
     // For Register
-    const createUser = async (name, email, password) => {
+    const createUser = async (name, email, password,isAdmin) => {
     const userExists = await User.findOne({ email });
     if (userExists) {
         throw new Error("User already exists");
@@ -24,6 +23,7 @@ const generateTokenResponse = (res, user) => {
         name,
         email,
         password,
+        isAdmin,
     });
     if (user) {
         return user;
@@ -31,19 +31,11 @@ const generateTokenResponse = (res, user) => {
         throw new Error("Invalid user data");
     }
     };
-    // User Profile
-    const userProfile = async (req) => {
-    const user = await User.findById(req.user._id);
-    if (user) {
-        return user;
-    } else {
-        throw new Error("User not found");
-    }
-    };
-
     export {
         authenticateUser,
         generateTokenResponse,
         createUser,
-        userProfile,
     }
+
+
+    
