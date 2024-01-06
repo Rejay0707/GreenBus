@@ -3,7 +3,8 @@ import express from 'express'
 import dotenv from 'dotenv';
 dotenv.config();
 import connectDB from './config/db.js';
-import userRoutes from './Routes/userRoute.js'
+import userRoutes from './Routes/userRoute.js';
+import busRoutes from './Routes/busRoutes.js';
 
 
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended : false}))
 
 app.use('/api/users', userRoutes)
+app.use('/api/bus',busRoutes)
 
 app.listen(5000,()=>console.log(`Server running on port ${port}`))
 

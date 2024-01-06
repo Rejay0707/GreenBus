@@ -10,13 +10,13 @@ const busSchema=new mongoose.Schema({
             required:true,
             unique:true,
         },
-        isSleeper:{
-            type:Boolean, //default is true
+        totalSeat:{
+            type:Number,
             required:true,
         },
-        busPrice:{
-        type:String,
-        required:true,
+        isSleeper:{
+            type:Boolean, //default is true
+            default: false
         },
     
 },{

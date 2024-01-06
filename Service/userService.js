@@ -1,3 +1,4 @@
+import Bus from "../models/busModel.js";
 import User from "../models/userModel.js"
 import generateToken from "../utils/generateToken.js";
 
@@ -36,6 +37,15 @@ const authenticateUser = async (email, password) => {
         generateTokenResponse,
         createUser,
     }
+    // User Profile
+const userProfile = async (req) => {
+    const user = await User.findById(req.user._id);
+    if (user) {
+        return user;
+    } else {
+        throw new Error("User not found");
+    }
+    };
 
 
     

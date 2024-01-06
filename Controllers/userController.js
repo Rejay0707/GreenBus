@@ -4,7 +4,7 @@ import asyncHandler from "../Middleware/asyncHandler.js";
 import generateToken from "../utils/generateToken.js";
 
 import User from "../models/userModel.js";
-import { authenticateUser,generateTokenResponse, createUser,} from '../Service/service.js'
+import { authenticateUser,generateTokenResponse, createUser,} from '../Service/userService.js'
 
 
 // @desc Auth & get token
@@ -35,9 +35,16 @@ const registerUser = asyncHandler(async (req, res) => {
             isAdmin: user.isAdmin,
         })
 });
-
+// @desc Get User by ID
+// @route GET /api/users/:id
+// @access Private/Admin
+const getUserByID = asyncHandler(async (req, res) => {
+    const user = await getUser(req);
+        res.status(200).json(user);
+});
 export{
     authUser,
     registerUser,
+    getUserByID
 }
 
