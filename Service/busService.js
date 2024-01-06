@@ -1,9 +1,9 @@
 import Bus from "../models/busModel.js";
 
     // BusProfile
-const busProfile=async (user_id,busNumber,busSeat,isSleeper)=>{
+const busProfile=async (userId,busNumber,totalSeat,isSleeper)=>{
     const createBus=await Bus.create({
-        user_id,busNumber,busSeat,isSleeper
+        userId,busNumber,totalSeat,isSleeper
     });
     return createBus
 }

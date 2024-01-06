@@ -3,10 +3,11 @@ import{busProfile,verifyBusExistence} from '../Service/busService.js';
 import {userId} from "../Middleware/authMiddleware.js";
 
 
+
 const generateBus=asyncHandler(async(req,res)=>{
 try {
-    const {busNumber, busSeats, isSleeper} = req.body
-    if(!busNumber || !busSeats){
+    const {busNumber, totalSeat, isSleeper} = req.body
+    if(!busNumber || !totalSeat){
         return res.status(400).json({
             message: "Invaild User data"
         })
@@ -18,14 +19,14 @@ try {
         })
     }
 
-    const user_id = userId(req)
+    const user_id = userId(req);
 
-    const bus = await busProfile(user_id, busNumber, busSeats, isSleeper)
+    const bus = await busProfile(user_id, busNumber, totalSeat, isSleeper)
 
     res.status(200).json({
-        user_id: bus.user_id,
+        user_id: bus.userId,
         busNumber: bus.busNumber,
-        busSeats: bus.busSeats,
+        totalSeat: bus.totalSeat,
         isSleeper: bus.isSleeper
     })
 } catch (error) {

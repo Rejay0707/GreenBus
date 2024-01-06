@@ -5,6 +5,8 @@ dotenv.config();
 import connectDB from './config/db.js';
 import userRoutes from './Routes/userRoute.js';
 import busRoutes from './Routes/busRoutes.js';
+import cookieParser from 'cookie-parser';
+import tripRoute from './Routes/tripRoute.js';
 
 
 
@@ -13,12 +15,14 @@ connectDB();//Connect to MongoDB
 const port=process.env.PORT || 8000;
 
 const app = express();
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({extended : false}))
 
 app.use('/api/users', userRoutes)
 app.use('/api/bus',busRoutes)
+app.use('/api/trip',tripRoute)
 
 app.listen(5000,()=>console.log(`Server running on port ${port}`))
 

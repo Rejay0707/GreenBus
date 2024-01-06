@@ -8,11 +8,12 @@ const protect=asyncHandler(async(req,res,next)=>{
 
     //Read the JWT from the cookie
     token =req.cookies.jwt;
+    // console.log(token)
 
     if(token){
         try {
             const decoded=jwt.verify(token,process.env.JWT_SECRET);
-            console.log(decoded);
+            // console.log(decoded);
             req.user=await User.findById(decoded.userId).select('-password');
             
             next();
@@ -27,7 +28,7 @@ const protect=asyncHandler(async(req,res,next)=>{
     }
 })
 
-//Admin middleware
+// Admin middleware
 const admin=(req,res,next)=>{
     if(req.user&&req.user.isAdmin){
         next();
@@ -37,7 +38,7 @@ const admin=(req,res,next)=>{
     }
 }
 
-// Get user Id
+// // Get user Id
 const userId = (req) => {
     const token = req.cookies.jwt;
 
@@ -53,6 +54,9 @@ const userId = (req) => {
         return null;
     }
 };
+
+
+
 
 
 export{protect,admin,userId};

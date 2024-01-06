@@ -4,6 +4,7 @@ const busSchema=new mongoose.Schema({
         userId:   {
         type:mongoose.Schema.Types.ObjectId,
         required:true,
+        rel:"User",
     },
         busNumber:{
             type:String, // 'TN22CS4902 //unique
