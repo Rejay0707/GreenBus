@@ -7,7 +7,7 @@ const passengerSchema = mongoose.Schema({
     age: {
         type: Number,
     },
-    seatNo: {
+    seatNumber: {
         type: Number,
     }
 })
