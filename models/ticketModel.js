@@ -1,77 +1,74 @@
-import mongoose from "mongoose";
-import express from express;
+import mongoose from 'mongoose';
 
-const passengerSchema=mongoose.Schema({
-    name:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:'User',
+const passengerSchema = mongoose.Schema({
+    name: {
+        type: String,
     },
-    age:{
-        type:Number,
-        required:true,
+    age: {
+        type: Number,
     },
-    seatNumber:{
-        type:Number,
-        required:true,
+    seatNo: {
+        type: Number,
     }
 })
-const ticketSchema=new mongoose.Schema({
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:'User',
+
+const ticketSchema = new mongoose.Schema({
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        rel: "User"
     },
-    tripId:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
+    trip_id: {
+        type: String,
+        required: true,
+        rel: "Trip"
     },
-    busId:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
+    busNumber: {
+        type: String,
+        required: true,
+        rel: "Bus"
     },
-    bookingDate:{
-        type:Date,
-        required:true,
+    bookingDate: {
+        type: Date,
+        required: true
     },
-    passenger:[passengerSchema],
-    numberOfSeats:{
-        type:Number,
-        required:true,
+    passengers: [passengerSchema],
+    numberOfSeats: {
+        type: Number,
+        required: true
     },
-    date:{
-        type:Date,
-        required:true,
+    date: {
+        type: Date,
+        required: true
     },
-    departureTime:{
-        type:Date,
-        required:true,
+    departureTime: {
+        type: String,
+        required: true
     },
-    arrivalTime:{
-        type:Date,
-        required:true,
+    arrivalTime: {
+        type: String,
+        required: true
     },
-    origin:{
-        type:String,
-        required:true,
+    origin: {
+        type: String,
+        required: true
     },
-    destination:{
-        String,
-        required:true,
+    destination: {
+        type: String,
+        required: true
     },
-    isBooked:{
-        type:Boolean,
-        required:true,
-        default:true,
+    isBooked: {
+        type: Boolean,
+        default: true
     },
-    totalPrice:{
-        type:Number,
-        required:true,
+    totalPrice: {
+        type: Number,
+        required: true
     }
 },{
-    timestamps:true,
-})
+    timestamps: true
+});
 
-const Ticket=mongoose.model('Ticket',ticketSchema)
+const Ticket = mongoose.model("Ticket", ticketSchema);
 
-export default Ticket
+export default Ticket;

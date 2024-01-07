@@ -7,6 +7,7 @@ import userRoutes from './Routes/userRoute.js';
 import busRoutes from './Routes/busRoutes.js';
 import cookieParser from 'cookie-parser';
 import tripRoute from './Routes/tripRoute.js';
+import ticketRoute from './Routes/ticketRoute.js';
 
 
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({extended : false}))
 app.use('/api/users', userRoutes)
 app.use('/api/bus',busRoutes)
 app.use('/api/trip',tripRoute)
+app.use('/api/ticket',ticketRoute)
 
 app.listen(5000,()=>console.log(`Server running on port ${port}`))
 
