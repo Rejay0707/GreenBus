@@ -9,7 +9,8 @@ import cookieParser from 'cookie-parser';
 import tripRoute from './Routes/tripRoute.js';
 import ticketRoute from './Routes/ticketRoute.js';
 import getTicketByIdRoute from './Routes/getTicketByIdRoute.js';
-import getAllTicketRoute from './Routes/getAllTicketRoute.js'
+import getAllTicketRoute from './Routes/getAllTicketRoute.js';
+import getTripByIdRoute from './Routes/getTripByIdRoute.js';
 
 
 
@@ -28,6 +29,7 @@ app.use('/api/trip',tripRoute)
 app.use('/api/ticket',ticketRoute)
 app.use('/api/ticketById',getTicketByIdRoute)
 app.use('/api/getAllTicket',getAllTicketRoute)
+app.use('/api/getTripById',getTripByIdRoute)
 
 app.listen(5000,()=>console.log(`Server running on port ${port}`))
 

@@ -1,5 +1,5 @@
 import Trip from '../models/tripModel.js';
-import { createTrip } from '../Service/tripService.js';
+import { createTrip,checkTrip,findTrip } from '../Service/tripService.js';
 
 const establishJourney = async (req,res) => {
     const {
@@ -13,10 +13,7 @@ const establishJourney = async (req,res) => {
         price
     } = req.body
 	try {
-		const existingTrip = await Trip.findOne({
-                busNumber: busNumber,
-                date: date,
-        });
+		const existingTrip = await checkTrip(busNumber, date);
 		if(existingTrip){
 			return res.status(400).json({"message": "Trip already exists"})
 		} else {
@@ -51,4 +48,25 @@ const establishJourney = async (req,res) => {
 	}
 }
 
-export {establishJourney}
+
+
+
+const SearchBus = async (req,res) => {
+    let origin = req.query.from;
+    let destination = req.query.to;
+    let date = req.query.date;
+
+    if (!origin || !destination || !date) {
+        return res.status(400).json({ "error": "Invalid parameters" });
+    }
+
+    const trip = await findTrip(origin, destination, date)
+
+    if (!trip.length) {
+        return res.status(404).json({ "message": "No available buses" });
+    } else {
+        return res.status(200).json(trip)
+    }
+}
+
+export {establishJourney,SearchBus}

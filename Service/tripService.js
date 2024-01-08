@@ -23,4 +23,26 @@ const createTrip = async (
     return addTrip
 }
 
-export { createTrip }
+const checkTrip = async (busNumber, date) => {
+    const existingTrip = await Trip.findOne({
+        busNumber: busNumber,
+        date: date,
+    });
+    return existingTrip
+}
+
+const receiveTrip = async (trip_Id) => {
+    const trip = await Trip.findById(trip_Id);
+    return trip;
+}
+
+const findTrip = async (origin, destination, date) => {
+    const trip = await Trip.find({
+        origin,
+        destination,
+        date,
+    });
+    return trip;
+}
+
+export { createTrip ,checkTrip,receiveTrip,findTrip}

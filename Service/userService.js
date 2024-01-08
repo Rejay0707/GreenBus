@@ -32,20 +32,21 @@ const authenticateUser = async (email, password) => {
         throw new Error("Invalid user data");
     }
     };
+    //get user
+    const getUser = async (req) => {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            return user;
+        } else {
+            throw new Error("User not found");
+        }
+        };
     export {
         authenticateUser,
         generateTokenResponse,
         createUser,
+        getUser,
     }
-    // User Profile
-const userProfile = async (req) => {
-    const user = await User.findById(req.user._id);
-    if (user) {
-        return user;
-    } else {
-        throw new Error("User not found");
-    }
-    };
-
+    
 
     

@@ -9,13 +9,13 @@ const bookTrip = async (req, res) => {
 
     try {
         if (!passengers || !Array.isArray(passengers) || passengers.length === 0) {
-            return res.status(400).json({ error: 'Invalid passengers data' });
+            return res.status(400).json({ "error": 'Invalid passengers data' });
         }
 
         const trip = await searchTrip(trip_id);
 
         if (!trip) {
-            return res.status(404).json({ error: 'Trip not found' });
+            return res.status(404).json({ "error": 'Trip not found' });
         }
 
         const user_id = userId(req);
@@ -35,7 +35,7 @@ const bookTrip = async (req, res) => {
         const seatExists = await checkSeat(trip_id, seatNumbers)
 
     if (seatExists) {
-        return res.status(400).json({ error: 'Seat already booked' });
+        return res.status(400).json({ "error": 'Seat already booked' });
     }
     
         
@@ -46,7 +46,7 @@ const bookTrip = async (req, res) => {
         const updateTrip = await UpdateTrip(trip_id, numberOfSeats, seatNumbers);
 
         if (!updateTrip) {
-            return res.status(500).json({ message: 'Cannot update trip' });
+            return res.status(500).json({ "message": 'Cannot update trip' });
         }
 
         res.status(200).json({

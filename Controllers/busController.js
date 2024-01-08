@@ -1,6 +1,6 @@
-import asyncHandler from "../Middleware/asyncHandler.js";
+import asyncHandler from "../middleware/asyncHandler.js";
 import{busProfile,verifyBusExistence} from '../Service/busService.js';
-import {userId} from "../Middleware/authMiddleware.js";
+import {userId} from "../middleware/authMiddleware.js";
 
 
 
