@@ -1,37 +1,115 @@
-import Bus from "../models/busModel.js";
+
 import User from "../models/userModel.js"
 import generateToken from "../utils/generateToken.js";
+import { registerUser,checkUser,authUser } from "../Controllers/userController.js";
+import asyncHandler from "../middleware/asyncHandler.js";
+import { register,login } from "../middleware/authMiddleware.js";
 
 const generateTokenResponse = (res, user) => {
     generateToken(res, user._id);
     };
-   // For login
-const authenticateUser = async (email, password) => {
-    const user = await User.findOne({ email });
-    if (user && (await user.matchPassword(password))) {
-        return user;
-    } else {
-        throw new Error("Invalid email or password");
+// For login
+// const authenticateUser = async (email, password) => {
+//     const user = await User.findOne({ email });
+
+//     if (user && (await user.matchPassword(password))) {
+//         return user;
+//     } else {
+//         throw new Error("Invalid email or password");
+//     }
+//     };
+// const authenticateUser = asyncHandler(async (req, res) => {
+//     const { email, password } = req.body;
+//     const user = await authUser(email, password);
+//         generateTokenResponse(res, user);
+//         res.status(200).json({
+//             _id: user._id,
+//             name: user.name,
+//             email: user.email,
+//             isAdmin: user.isAdmin,
+//         });
+// });
+
+//for login
+const authenticateUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    const { error } = login(req.body);
+    if (error){
+        console.log(error)
+        return res.status(400).json({
+            "message": "error.message"
+        });
     }
-    };
-    // For Register
-    const createUser = async (name, email, password,isAdmin) => {
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-        throw new Error("User already exists");
+    
+
+    try {
+        const user = await authUser(email, password)
+        if (user) {
+
+            generateToken(res, user._id);
+    
+            res.status(200).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+            });
+        } else {
+            res.status(401).json({
+                message: "Invalid email or password"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Invalid Parameters"})
     }
-    const user = await User.create({
-        name,
-        email,
-        password,
-        isAdmin,
+});
+
+
+
+    
+    //for register
+
+    const createUser = asyncHandler (async (req, res) => {
+        
+        const { name, email, password, isAdmin } = req.body;
+        
+        const { error } =  register(req.body)
+    
+        if (error){
+            console.log(error)
+            return res.status(400).json({
+                "message": "error.message"
+            });
+        }
+    
+        try {
+            const userExists = await checkUser(email)
+    
+            if (userExists){
+                return await res.status(400).json({
+                    "message" : "User already Exists"
+                })
+            }
+            const user =await registerUser(name, email, password, isAdmin);
+    
+                generateToken(res, user._id)
+    
+                res.status(201).json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                })
+        } catch (error) {
+            res.status(401).json({
+                
+                "message": "registration failed please try again later"
+            })
+        } 
     });
-    if (user) {
-        return user;
-    } else {
-        throw new Error("Invalid user data");
-    }
-    };
+
+    
     //get user
     const getUser = async (req) => {
         const user = await User.findById(req.params.id);

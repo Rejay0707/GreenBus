@@ -1,7 +1,13 @@
-import Trip from '../models/tripModel.js';
 import { createTrip,checkTrip,findTrip } from '../Service/tripService.js';
+import { tripInformation,searchInformation } from '../middleware/tripMiddleware.js';
 
 const establishJourney = async (req,res) => {
+    const { error} = await tripInformation(req.body)
+    if(error){
+        return res.status(400).json({
+            "message" : "error.message"
+        })
+    }
     const {
         busNumber,
         availableSeats,
@@ -51,16 +57,22 @@ const establishJourney = async (req,res) => {
 
 
 
-const SearchBus = async (req,res) => {
+const FindBus = async (req,res) => {
     let origin = req.query.from;
     let destination = req.query.to;
     let date = req.query.date;
 
-    if (!origin || !destination || !date) {
-        return res.status(400).json({ "error": "Invalid parameters" });
+    const {error} = await searchInformation(req.query)
+
+    if(error){
+        console.log(error)
+        return res.status(401).json({
+            "message" :"Invalid Parameters"
+        })
     }
 
     const trip = await findTrip(origin, destination, date)
+    console.log(trip);
 
     if (!trip.length) {
         return res.status(404).json({ "message": "No available buses" });
@@ -69,4 +81,4 @@ const SearchBus = async (req,res) => {
     }
 }
 
-export {establishJourney,SearchBus}
+export {establishJourney,FindBus}
