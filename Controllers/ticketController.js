@@ -2,15 +2,22 @@ import { userId } from "../middleware/authMiddleware.js";
 import {searchTrip, developTicket, checkSeat, UpdateTrip } from '../Service/ticketService.js';
 import Ticket from "../models/ticketModel.js";
 import Trip from '../models/tripModel.js';
+import { ticketInformation } from "../middleware/ticketMiddleware.js";
 
 const bookTrip = async (req, res) => {
     const { passengers } = req.body;
     const { trip_id } = req.params;
 
     try {
-        if (!passengers || !Array.isArray(passengers) || passengers.length === 0) {
-            return res.status(400).json({ "error": 'Invalid passengers data' });
-        }
+        // if (!passengers || !Array.isArray(passengers) || passengers.length === 0) {
+        //     return res.status(400).json({ "error": 'Invalid passengers data' });
+        // }
+        const { error } = await ticketInformation(req.body)
+            if(error){
+                return res.status(400).json({
+                    "message": "Invalid passenger data"
+                })
+            }
 
         const trip = await searchTrip(trip_id);
 

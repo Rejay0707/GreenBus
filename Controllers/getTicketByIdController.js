@@ -3,12 +3,13 @@ import Ticket from "../models/ticketModel.js";
 
 const getTicketById = async (req, res) => {
 	try {
-		const ticket = await Ticket.findOne({ ticket_Id: req.params.ticket_id });
+		const ticket = await Ticket.findById(req.params.id);
+		console.log(ticket)
 
 		if (ticket) {
             return res.status(200).json(ticket);
         } else {
-            return res.status(404).json({ message: 'Tickets not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
 		
 	} catch (err) {
