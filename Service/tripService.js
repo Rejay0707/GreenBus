@@ -38,8 +38,8 @@ const receiveTrip = async (trip_Id) => {
 
 const findTrip = async (origin, destination, date) => {
     const trip = await Trip.find({
-        origin,
-        destination,
+        origin:{ $regex: origin, $options: 'i' },
+        destination:{ $regex: destination, $options: 'i' },
         date,
     });
     return trip;

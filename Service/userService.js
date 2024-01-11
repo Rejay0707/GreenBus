@@ -38,7 +38,7 @@ const authenticateUser = asyncHandler(async (req, res) => {
     if (error){
         console.log(error)
         return res.status(400).json({
-            "message": "error.message"
+            message: error.message
         });
     }
     
@@ -61,7 +61,7 @@ const authenticateUser = asyncHandler(async (req, res) => {
             })
         }
     } catch (error) {
-        res.status(500).json({ message: "Invalid Parameters"})
+        res.status(500).json({ message: "Invalid email or password"})
     }
 });
 
@@ -79,7 +79,7 @@ const authenticateUser = asyncHandler(async (req, res) => {
         if (error){
             console.log(error)
             return res.status(400).json({
-                "message": "error.message"
+                message : error.message
             });
         }
     
