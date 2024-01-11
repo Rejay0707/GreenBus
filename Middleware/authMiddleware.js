@@ -127,3 +127,7 @@ const checkAuthDetails = async (req, res, next) => {
 
 export { protect, admin, userId ,register,login,checkUserDetails,checkAuthDetails};
 
+
+////////////////////////////////////////////////
+
+
