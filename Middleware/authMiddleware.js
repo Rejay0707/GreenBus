@@ -32,6 +32,19 @@ const protect=asyncHandler(async(req,res,next)=>{
     }
 })
 
+//check user
+const checkUserDetails = (req,res,next) => {
+    const user_id = userId(req)
+    const id = req.params.id
+    if(id === user_id){
+        next();
+    } else {
+        return res.status(404).json({
+            message: "User ID Not Found"
+        })
+    }
+}
+
 // Admin middleware
 const admin=(req,res,next)=>{
     if(req.user&&req.user.isAdmin){
@@ -79,18 +92,7 @@ const login = (data) => {
     return schema.validate(data);
 };
 
-//check user
-const checkUserDetails = (req,res,next) => {
-    const user_id = userId(req)
-    const id = req.params.id
-    if(id === user_id){
-        next();
-    } else {
-        return res.status(404).json({
-            message: "User ID Not Found"
-        })
-    }
-}
+
 //Verify that the correct user is logged in to access the ticket.
 const checkAuthDetails = async (req, res, next) => {
     const user_id = userId(req)
