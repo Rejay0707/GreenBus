@@ -15,7 +15,7 @@ import getTripByIdRoute from './Routes/getTripByIdRoute.js';
 
 
 connectDB();//Connect to MongoDB
-const port = 9000;
+const port = process.env.PORT || 8000;
 
 const app = express();
 app.use(cookieParser());
