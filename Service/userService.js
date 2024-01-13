@@ -45,8 +45,8 @@ const authenticateUser = asyncHandler(async (req, res) => {
 
     try {
         const user = await authUser(email, password)
-        if (user) {
-
+        if(user) {
+            
             generateToken(res, user._id);
     
             res.status(200).json({

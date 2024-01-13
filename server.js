@@ -1,7 +1,7 @@
 
 import express from 'express'
 import dotenv from 'dotenv';
-dotenv.config();
+
 import connectDB from './config/db.js';
 import userRoutes from './Routes/userRoute.js'
 import busRoutes from './Routes/busRoutes.js';
@@ -12,7 +12,7 @@ import getTicketByIdRoute from './Routes/getTicketByIdRoute.js';
 import getAllTicketRoute from './Routes/getAllTicketRoute.js';
 import getTripByIdRoute from './Routes/getTripByIdRoute.js';
 
-
+dotenv.config();
 
 connectDB();//Connect to MongoDB
 const port = process.env.PORT || 8000;
