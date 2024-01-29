@@ -9,7 +9,7 @@ const getTicketById = async (req, res) => {
 		if (ticket) {
             return res.status(200).json(ticket);
         } else {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'Users not found' });
         }
 		
 	} catch (err) {
