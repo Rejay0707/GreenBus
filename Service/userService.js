@@ -61,7 +61,7 @@ const authenticateUser = asyncHandler(async (req, res) => {
             })
         }
     } catch (error) {
-        res.status(500).json({ message: "Invalid email or password"})
+        res.status(500).json({ message: "Invalid  email  or  password"})
     }
 });
 

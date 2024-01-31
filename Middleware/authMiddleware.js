@@ -31,11 +31,29 @@ const protect=asyncHandler(async(req,res,next)=>{
         })
     }
 })
+// // Get user Id
+const userId = (req) => {
+    const token = req.cookies.jwt;
+
+    if (!token) {
+        return null;
+    }
+
+    try {
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        return decodedToken.userId;
+    } catch (error) {
+        console.log('Error verifying JWT:', error);
+        return null;
+    }
+};
 
 //check user
 const checkUserDetails = (req,res,next) => {
+    // console.log(req)
     const user_id = userId(req)
     const id = req.params.id
+    console.log(user_id,id)
     if(id === user_id){
         next();
     } else {
@@ -55,22 +73,7 @@ const admin=(req,res,next)=>{
     }
 }
 
-// // Get user Id
-const userId = (req) => {
-    const token = req.cookies.jwt;
 
-    if (!token) {
-        return null;
-    }
-
-    try {
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        return decodedToken.userId;
-    } catch (error) {
-        console.log('Error verifying JWT:', error);
-        return null;
-    }
-};
 
 // Register User(validation)
 const register = (data) => {
