@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start": "node Backend/server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "Rejay",
