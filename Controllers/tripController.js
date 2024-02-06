@@ -1,8 +1,8 @@
 import { createTrip,checkTrip,findTrip } from '../Service/tripService.js';
 import { tripInformation,searchInformation } from '../middleware/tripMiddleware.js';
 
-const establishJourney = async (req,res) => {
-    const { error} = await tripInformation(req.body)
+const establishJourney =  (req,res) => {
+    const { error} =  tripInformation(req.body)
     if(error){
         return res.status(400).json({
             "message" : error.message
@@ -19,14 +19,14 @@ const establishJourney = async (req,res) => {
         price
     } = req.body
 	try {
-		const existingTrip = await checkTrip(busNumber, date);
+		const existingTrip =  checkTrip(busNumber, date);
 		if(existingTrip){
 			return res.status(400).json({"message": "Trip already exists"})
 		} else {
             console.log("hello")
         }
 
-        const trip = await createTrip(
+        const trip =  createTrip(
             busNumber,
             availableSeats,
             date,
@@ -57,12 +57,12 @@ const establishJourney = async (req,res) => {
 
 
 
-const FindBus = async (req,res) => {
+const FindBus = (req,res) => {
     let origin = req.query.from;
     let destination = req.query.to;
     let date = req.query.date;
 
-    const {error} = await searchInformation(req.query)
+    const {error} = searchInformation(req.query)
 
     if(error){
         console.log(error)
@@ -71,7 +71,7 @@ const FindBus = async (req,res) => {
         })
     }
 
-    const trip = await findTrip(origin, destination, date)
+    const trip =  findTrip(origin, destination, date)
     console.log(trip);
 
     if (!trip.length) {

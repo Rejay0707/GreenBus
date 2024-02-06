@@ -8,27 +8,6 @@ import { register,login } from "../middleware/authMiddleware.js";
 const generateTokenResponse = (res, user) => {
     generateToken(res, user._id);
     };
-// For login
-// const authenticateUser = async (email, password) => {
-//     const user = await User.findOne({ email });
-
-//     if (user && (await user.matchPassword(password))) {
-//         return user;
-//     } else {
-//         throw new Error("Invalid email or password");
-//     }
-//     };
-// const authenticateUser = asyncHandler(async (req, res) => {
-//     const { email, password } = req.body;
-//     const user = await authUser(email, password);
-//         generateTokenResponse(res, user);
-//         res.status(200).json({
-//             _id: user._id,
-//             name: user.name,
-//             email: user.email,
-//             isAdmin: user.isAdmin,
-//         });
-// });
 
 //for login
 const authenticateUser = asyncHandler(async (req, res) => {
@@ -119,6 +98,10 @@ const authenticateUser = asyncHandler(async (req, res) => {
             throw new Error("User not found");
         }
         };
+
+
+
+
     export {
         authenticateUser,
         generateTokenResponse,

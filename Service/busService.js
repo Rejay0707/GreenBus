@@ -8,9 +8,6 @@ const busProfile=async (userId,busNumber,totalSeat,isSleeper)=>{
     return createBus
 }
 
-const verifyBusExistence=async(busNumber)=>{
-    const bus=await Bus.findOne({busNumber})
-    return bus
-}
 
-export {busProfile,verifyBusExistence}
+
+export {busProfile}

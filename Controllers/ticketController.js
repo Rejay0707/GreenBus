@@ -1,28 +1,20 @@
 import { userId } from "../middleware/authMiddleware.js";
-import {searchTrip, developTicket, checkSeat, UpdateTrip } from '../Service/ticketService.js';
-import Ticket from "../models/ticketModel.js";
-import Trip from '../models/tripModel.js';
-import { ticketInformation } from "../middleware/ticketMiddleware.js";
+import {searchTrip, developTicket, checkSeat, UpdateTrip,cancel,update } from '../Service/ticketService.js';
 
-const bookTrip = async (req, res) => {
+
+
+const bookTrip = async(req, res) => {
     const { passengers } = req.body;
     const { trip_id } = req.params;
+    // console.log(passengers,trip_id)
 
     try {
-        // if (!passengers || !Array.isArray(passengers) || passengers.length === 0) {
-        //     return res.status(400).json({ "error": 'Invalid passengers data' });
-        // }
-        const { error } = await ticketInformation(req.body)
-            if(error){
-                return res.status(400).json({
-                    "message": error.message
-                })
-            }
-
+        
         const trip = await searchTrip(trip_id);
+        // console.log(trip)
 
         if (!trip) {
-            return res.status(404).json({ "error": 'Trip not found' });
+            return res.status(404).json({ error: 'Trip not found' });
         }
 
         const user_id = userId(req);
@@ -40,20 +32,19 @@ const bookTrip = async (req, res) => {
 
 
         const seatExists = await checkSeat(trip_id, seatNumbers)
+        // console.log(seatExists)
 
     if (seatExists) {
-        return res.status(400).json({ "error": 'Seat already booked' });
+        return res.status(400).json({ error: 'Seat already booked' });
     }
     
-        
+        const ticket = await  developTicket(user_id, trip_id, busNumber, bookingDate, passengers, numberOfSeats, date, departureTime, arrivalTime, origin, destination, totalPrice);
+        // console.log(ticket)
 
-
-        const ticket = await developTicket(user_id, trip_id, busNumber, bookingDate, passengers, numberOfSeats, date, departureTime, arrivalTime, origin, destination, totalPrice);
-
-        const updateTrip = await UpdateTrip(trip_id, numberOfSeats, seatNumbers);
+        const updateTrip =  UpdateTrip(trip_id, numberOfSeats, seatNumbers);
 
         if (!updateTrip) {
-            return res.status(500).json({ "message": 'Cannot update trip' });
+            return res.status(500).json({ message: 'Cannot update trip' });
         }
 
         res.status(200).json({
@@ -80,31 +71,40 @@ const bookTrip = async (req, res) => {
 
 
 const cancelTicket = async (req, res) => {
-    const ticket = await Ticket.findOne({ ticket_Id: req.params.ticket_id });
 
-    if(ticket){
-        const seatNumbers = ticket.passengers
-        const seatNo = seatNumbers.map(passenger => passenger.seatNo);
+    try {
+        const ticket = await cancel(req.params.id)
 
-        const trip = await Trip.findOneAndUpdate(
-            { _id: ticket.trip_id },
-            { $inc: { availableSeats: ticket.numberOfSeats }, $pull: { bookedSeats: { $in: seatNo} } },
-            { new: true }
-        );
+        if(ticket){
+            const seatNumbers = ticket.passengers
+            const seatNo = seatNumbers.map(passenger => passenger.seatNumber);
+            if(!ticket.isBooked){
+                return res.status(400).json({
+                    message: "Ticket Already Canceled"
+                })
+            }
+            const trip = await update(ticket.trip_id, ticket.numberOfSeats, seatNo)
 
-        if(!trip) {
-        return res.status(404).json({
-                message: "Trip Not Found"
+            if(!trip) {
+            return res.status(404).json({
+                    message: "Trip Not Found"
+                })
+            }
+            ticket.isBooked = false
+            await ticket.save();
+            return res.status(200).json(ticket)
+        } else {
+            return res.status(404).json({
+                message: "Ticket Not Found"
             })
         }
-        ticket.isBooked = false
-        await ticket.save();
-        return res.status(200).json(ticket)
-    } else {
-        return res.status(404).json({
-            message: "Ticket Not Found"
+    } catch (error) {
+        res.status(500).json({
+            message: "Invalid Ticket ID"
         })
     }
+
+    
 }
 
 export { bookTrip , cancelTicket }

@@ -1,23 +1,10 @@
-import asyncHandler from "../middleware/asyncHandler.js";
-import{busProfile,verifyBusExistence} from '../Service/busService.js';
+import{busProfile} from '../Service/busService.js';
 import {userId} from "../middleware/authMiddleware.js";
-import {busInformation} from '../middleware/busMiddleware.js';
 
-const generateBus = asyncHandler(async (req, res)=> {
+
+const generateBus = async (req, res)=> {
     try {
         const {busNumber, totalSeat, isSleeper} = req.body
-    const { error } = busInformation(req.body)
-    if(error){
-        return res.status(400).json({
-            message: error.message
-        })
-    }
-        const checkBus = await verifyBusExistence(busNumber)
-        if(checkBus){
-            return res.status(400).json({
-                message: "Bus already Exists"
-            })
-        }
 
         const user_id = userId(req)
 
@@ -31,8 +18,8 @@ const generateBus = asyncHandler(async (req, res)=> {
         })
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: "Bus already exist" })
     }
-})
+}
 
 export { generateBus }
