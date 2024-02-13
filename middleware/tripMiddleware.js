@@ -27,7 +27,7 @@ const searchInformation = (req,res,next) => {
     const schema = Joi.object({
         from : Joi.string().required(),
         to : Joi.string().required(),
-        date : Joi.date().required()
+        date : Joi.date().format('YYYY-MM-DD').required(),
     });
     const { error} = schema.validate(req.query)
     if(error){
