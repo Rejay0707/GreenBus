@@ -1,25 +1,42 @@
-import Joi from 'joi'
+import JoiBase from 'joi';
+import JoiDate from '@hapi/joi-date';
 
-const tripInformation = (data) => {
+const Joi = JoiBase.extend(JoiDate);
+
+const tripInformation = (req,res,next) => {
     const schema = Joi.object({
         busNumber : Joi.string().required(),
         availableSeats : Joi.number().required(),
         date : Joi.date().required(),
-        departureTime : Joi.string().required(),
-        arrivalTime : Joi.string().required(),
+        departureTime : Joi.date().format('HH:mm').required(),
+        arrivalTime : Joi.date().format('HH:mm').required(),
         origin : Joi.string().required(),
         destination : Joi.string().required(),
         price : Joi.number().integer().required()
     });
-    return schema.validate(data)
+    const { error } = schema.validate(req.body);
+    if(error){
+        return res.status(400).json({
+            message: error.message
+        })
+    } else {
+        next();
+    }
 }
-const searchInformation = (data) => {
+const searchInformation = (req,res,next) => {
     const schema = Joi.object({
         from : Joi.string().required(),
         to : Joi.string().required(),
         date : Joi.date().required()
     });
-    return schema.validate(data)
+    const { error} = schema.validate(req.query)
+    if(error){
+        return res.status(400).json({
+            message: error.message
+        })
+    } else {
+        next();
+    }
 }
 
 export {tripInformation,searchInformation}

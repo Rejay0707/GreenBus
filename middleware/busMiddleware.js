@@ -104,13 +104,20 @@ const ensureUniquePassengerSeats = (req, res, next) => {
 
 
 //bus(validation)
-const busInformation= (data) => {
+const busInformation= (req,res,next) => {
 	const busSchema = Joi.object({
 		busNumber: Joi.string().required(),
 		totalSeat: Joi.number().required(),
 		isSleeper: Joi.boolean(),
 	});
-	return busSchema.validate(data)
+	const { error } = busSchema.validate(req.body);
+    if(error){
+        return res.status(404).json({
+            message: error.message
+        })
+    } else {
+        next();
+    }
 }
 
 export { checkBusOwnership,verifyBusExistence,validatePassengerSeats,validateAvailableSeats,ensureUniquePassengerSeats,busInformation }

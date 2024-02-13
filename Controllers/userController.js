@@ -10,17 +10,6 @@ import { getUser } from "../Service/userService.js";
 // @desc Auth & get token
 // @route POST /api/users/login
 // @access Public
-// const authUser = asyncHandler(async (req, res) => {
-//     const { email, password } = req.body;
-//     const user = await authenticateUser(email, password);
-//         generateTokenResponse(res, user);
-//         res.status(200).json({
-//             _id: user._id,
-//             name: user.name,
-//             email: user.email,
-//             isAdmin: user.isAdmin,
-//         });
-// });
 //For login
 const authUser = async (email, password) => {
     const user = await User.findOne({ email });
@@ -34,17 +23,6 @@ const authUser = async (email, password) => {
 // @desc Register user
 // @route POST /api/users
 // @access Public
-// const registerUser = asyncHandler(async (req, res) => {
-//     const { name, email, password,isAdmin} = req.body;
-//     const user = await createUser(name,email,password,isAdmin)
-//         generateTokenResponse(res,user);
-//         res.status(200).json({
-//             _id: user._id,
-//             name: user.name,
-//             email: user.email,
-//             isAdmin: user.isAdmin,
-//         })
-// });
 
 //For register
 

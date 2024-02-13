@@ -1,13 +1,13 @@
 import { createTrip,checkTrip,findTrip } from '../Service/tripService.js';
-import { tripInformation,searchInformation } from '../middleware/tripMiddleware.js';
+// import { tripInformation,searchInformation } from '../middleware/tripMiddleware.js';
 
-const establishJourney =  (req,res) => {
-    const { error} =  tripInformation(req.body)
-    if(error){
-        return res.status(400).json({
-            "message" : error.message
-        })
-    }
+const establishJourney =  async(req,res) => {
+    // const { error} =  tripInformation(req.body)
+    // if(error){
+    //     return res.status(400).json({
+    //         "message" : error.message
+    //     })
+    // }
     const {
         busNumber,
         availableSeats,
@@ -19,14 +19,14 @@ const establishJourney =  (req,res) => {
         price
     } = req.body
 	try {
-		const existingTrip =  checkTrip(busNumber, date);
+		const existingTrip =await  checkTrip(busNumber, date);
 		if(existingTrip){
 			return res.status(400).json({"message": "Trip already exists"})
 		} else {
             console.log("hello")
         }
 
-        const trip =  createTrip(
+        const trip =await  createTrip(
             busNumber,
             availableSeats,
             date,
@@ -57,21 +57,21 @@ const establishJourney =  (req,res) => {
 
 
 
-const FindBus = (req,res) => {
+const FindBus =async (req,res) => {
     let origin = req.query.from;
     let destination = req.query.to;
     let date = req.query.date;
 
-    const {error} = searchInformation(req.query)
+    // const {error} = searchInformation(req.query)
 
-    if(error){
-        console.log(error)
-        return res.status(401).json({
-            "message" :"Invalid Parameters"
-        })
-    }
+    // if(error){
+    //     console.log(error)
+    //     return res.status(401).json({
+    //         "message" :"Invalid Parameters"
+    //     })
+    // }
 
-    const trip =  findTrip(origin, destination, date)
+    const trip =await findTrip(origin, destination, date)
     console.log(trip);
 
     if (!trip.length) {
