@@ -8,7 +8,7 @@ const getAllTicket = async (req, res) => {
         const tickets = await Ticket.find({ user_id: user_id });
 
 		if (!tickets.length) {
-            return res.status(404).json({ message: 'Tickets not found' });
+            return res.status(404).json({ message: 'Only admin can see all tickets' });
         } else {
             return res.status(200).json(tickets)
         }
