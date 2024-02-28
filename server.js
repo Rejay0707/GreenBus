@@ -11,6 +11,7 @@ import ticketRoute from './Routes/ticketRoute.js';
 import getTicketByIdRoute from './Routes/getTicketByIdRoute.js';
 import getAllTicketRoute from './Routes/getAllTicketRoute.js';
 import getTripByIdRoute from './Routes/getTripByIdRoute.js';
+import cors from 'cors'
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ connectDB();//Connect to MongoDB
 const port = process.env.PORT || 8000;
 
 const app = express();
+app.use(cors())
 app.use(cookieParser());
 
 app.use(express.json());

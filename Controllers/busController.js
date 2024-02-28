@@ -6,7 +6,7 @@ const generateBus = async (req, res)=> {
     try {
         const {busNumber, totalSeat, isSleeper} = req.body
 
-        const user_id = userId(req)
+        const user_id = await userId(req)
 
         const bus = await busProfile(user_id, busNumber, totalSeat, isSleeper)
 

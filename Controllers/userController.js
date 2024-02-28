@@ -1,7 +1,3 @@
-
-
-import asyncHandler from "../middleware/asyncHandler.js";
-
 import User from "../models/userModel.js";
 import { getUser } from "../Service/userService.js";
 
@@ -46,10 +42,10 @@ const checkUser = async (email)=> {
 // @desc Get User by ID
 // @route GET /api/users/:id
 // @access Private/Admin
-const getUserByID = asyncHandler(async (req, res) => {
+const getUserByID = async (req, res) => {
     const user = await getUser(req);
         res.status(200).json(user);
-});
+};
 export{
     authUser,
     registerUser,

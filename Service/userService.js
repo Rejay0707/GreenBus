@@ -2,7 +2,6 @@
 import User from "../models/userModel.js"
 import generateToken from "../utils/generateToken.js";
 import { registerUser,checkUser,authUser } from "../Controllers/userController.js";
-import asyncHandler from "../middleware/asyncHandler.js";
 import { register,login } from "../middleware/authMiddleware.js";
 
 const generateTokenResponse = (res, user) => {
@@ -10,7 +9,7 @@ const generateTokenResponse = (res, user) => {
     };
 
 //for login
-const authenticateUser = asyncHandler(async (req, res) => {
+const authenticateUser = async (req, res) => {
     const { email, password } = req.body;
 
     const { error } = login(req.body);
@@ -42,14 +41,14 @@ const authenticateUser = asyncHandler(async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Invalid  email  or  password"})
     }
-});
+};
 
 
 
     
     //for register
 
-    const createUser = asyncHandler (async (req, res) => {
+    const createUser = async (req, res) => {
         
         const { name, email, password, isAdmin } = req.body;
         
@@ -86,7 +85,7 @@ const authenticateUser = asyncHandler(async (req, res) => {
                 "message": "registration failed please try again later"
             })
         } 
-    });
+    };
 
     
     //get user

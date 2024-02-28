@@ -62,15 +62,6 @@ const FindBus =async (req,res) => {
     let destination = req.query.to;
     let date = req.query.date;
 
-    // const {error} = searchInformation(req.query)
-
-    // if(error){
-    //     console.log(error)
-    //     return res.status(401).json({
-    //         "message" :"Invalid Parameters"
-    //     })
-    // }
-
     const trip =await findTrip(origin, destination, date)
     console.log(trip);
 

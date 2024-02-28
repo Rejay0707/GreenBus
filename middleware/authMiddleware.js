@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken';
-import asyncHandler from './asyncHandler.js';
 import User from '../models/userModel.js';
 import Ticket from '../models/ticketModel.js';
 import Joi from 'joi';
 
 //Protect routes
-const protect=asyncHandler(async(req,res,next)=>{
+const protect=async(req,res,next)=>{
     let token;
 
     //Read the JWT from the cookie
@@ -30,7 +29,7 @@ const protect=asyncHandler(async(req,res,next)=>{
             "message":"Authentication failed. No token provided."
         })
     }
-})
+}
 // // Get user Id
 const userId = (req) => {
     const token = req.cookies.jwt;
