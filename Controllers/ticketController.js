@@ -34,9 +34,9 @@ const bookTrip = async(req, res) => {
         const seatExists = await checkSeat(trip_id, seatNumbers)
         // console.log(seatExists)
 
-    if (seatExists) {
-        return res.status(400).json({ error: 'Seat already booked' });
-    }
+        if (seatExists) {
+            return res.status(400).json({ error: 'Seat already booked' });
+        }
     
         const ticket = await  developTicket(user_id, trip_id, busNumber, bookingDate, passengers, numberOfSeats, date, departureTime, arrivalTime, origin, destination, totalPrice);
         // console.log(ticket)

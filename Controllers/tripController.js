@@ -2,12 +2,6 @@ import { createTrip,checkTrip,findTrip } from '../Service/tripService.js';
 // import { tripInformation,searchInformation } from '../middleware/tripMiddleware.js';
 
 const establishJourney =  async(req,res) => {
-    // const { error} =  tripInformation(req.body)
-    // if(error){
-    //     return res.status(400).json({
-    //         "message" : error.message
-    //     })
-    // }
     const {
         busNumber,
         availableSeats,
